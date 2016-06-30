@@ -3,6 +3,7 @@ from collections import defaultdict
 from flask import Flask, request
 from pytrie import Trie
 import uuid
+import requests
 
 app = Flask(__name__)
 
@@ -39,8 +40,8 @@ data_loaded = False
 
 def load_data():
     global data_loaded, prefix_tree, data, country_index, name_index
-    json_data=open("world_universities_and_domains.json").read()
-    data = json.loads(json_data)
+    response= requests.get("https://raw.githubusercontent.com/Hipo/university-domains-list-api/master/world_universities_and_domains.json")
+    data = response.json()
     for i in data:
         country_index[i["country"].lower()].append(i)
         name_index[i['name'].lower()] = i

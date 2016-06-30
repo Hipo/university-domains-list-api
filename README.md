@@ -1,21 +1,18 @@
 University Domains and Names API
 =================================
 
-An API and JSON list contains domains, names and countries of most of the universities of the world.
------------------------------------
+
+
+### An API and JSON list contains domains, names and countries of most of the universities of the world.
 
 
 Provides a search endpoint you can search for an autocomplete for university name or/and filter by country.
 
-You can easily create a validation script that checks the email domain. You can also automatically generate a user's country and university by looking their emails.
+Feel free to update the list from [university-domains-list](https://github.com/hipo/university-domains-list)
 
-NOTE: Some university use a format like '[user]@[department].[domain]', but this list only contains the [domain] portion. For example, an email address might be [student]@cs.usc.edu, and this list will contain 'usc.edu', the domain for the University of Southern California. Take this into consideration if using this list for email address validation.
 
-Feel free to update the list.
 
-==================================
-
-SEARCH FROM OUR PUBLIC API
+## SEARCH FROM OUR PUBLIC API
 -----------------
 
     http://universities.hipolabs.com
@@ -24,8 +21,8 @@ SEARCH FROM OUR PUBLIC API
     
     http://universities.hipolabs.com/search?name=middle&country=turkey
     
-API Search Endpoint
--------------
+
+## API Search Endpoint
 
 ### Request
     /search?name=Middle
@@ -86,8 +83,7 @@ API Search Endpoint
     ]
 
 
-Run the Project
-----------------
+## Run the Project
 
 - Clone Project 
 `git clone https://github.com/vargi/university-domains-list.git`
@@ -96,4 +92,11 @@ Run the Project
 `pip install -r requirements.txt`
 - Run server `python app.py`
 
--------------------
+
+
+## Contribution
+Please contribute to this list! We need your support to keep this list up-to-date.
+Do not hesitate to fix any wrong data. It is extremely easy. Just open a PR, or create an issue. 
+
+
+### Created and maintained by [Hipo](http://www.hipolabs.com)
