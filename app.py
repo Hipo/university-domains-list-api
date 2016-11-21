@@ -11,6 +11,7 @@ data = list()
 country_index = defaultdict(list)
 name_index = dict()
 
+
 @app.route("/search")
 def search():
     if not data_loaded:
@@ -38,9 +39,10 @@ def search():
 
 data_loaded = False
 
+
 def load_data():
     global data_loaded, prefix_tree, data, country_index, name_index
-    response= requests.get("https://raw.githubusercontent.com/Hipo/university-domains-list-api/master/world_universities_and_domains.json")
+    response = requests.get("https://raw.githubusercontent.com/Hipo/university-domains-list/master/world_universities_and_domains.json")
     data = response.json()
     for i in data:
         country_index[i["country"].lower()].append(i)
