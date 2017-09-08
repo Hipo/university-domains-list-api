@@ -10,6 +10,7 @@ app = Flask(__name__)
 data = list()
 country_index = defaultdict(list)
 name_index = dict()
+domain_index = defaultdict(list)
 
 
 @app.route("/search")
@@ -19,6 +20,7 @@ def search():
 
     country = request.args.get('country')
     name = request.args.get('name')
+    domain = request.args.get("domain")
     filtered = data
 
     if name and country:
@@ -34,6 +36,8 @@ def search():
     elif country:
         country = country.lower()
         filtered = country_index[country]
+    elif domain:
+        filtered = domain_index[domain]
 
     return json.dumps(filtered)
 
@@ -41,12 +45,14 @@ data_loaded = False
 
 
 def load_data():
-    global data_loaded, prefix_tree, data, country_index, name_index
+    global data_loaded, prefix_tree, data, country_index, name_index, domain_index
     response = requests.get("https://raw.githubusercontent.com/Hipo/university-domains-list/master/world_universities_and_domains.json")
     data = response.json()
     for i in data:
         country_index[i["country"].lower()].append(i)
         name_index[i['name'].lower()] = i
+        for domain in i["domains"]:
+            domain_index[domain].append(i)
         splitted = i['name'].split(" ")
         if len(splitted) > 1:
             for splitted_name in splitted[1:]:
