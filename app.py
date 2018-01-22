@@ -1,6 +1,6 @@
 import json
 from collections import defaultdict
-from flask import Flask, request
+from flask import Flask, request, Response
 from pytrie import Trie
 import uuid
 import requests
@@ -38,7 +38,7 @@ def search():
     elif domain:
         filtered = domain_index[domain]
 
-    return json.dumps(filtered)
+    return Response(json.dumps(filtered), mimetype='application/json')
 
 data_loaded = False
 
