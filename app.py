@@ -27,8 +27,7 @@ def search():
         name = name.lower()
         country = country.lower()
         name_filtered = prefix_tree.values(prefix=name)
-        country_filtered = country_index[country]
-        filtered = [i for i in name_filtered if i['name'] in [_i['name'] for _i in country_filtered]]
+        filtered = [uni for uni in name_filtered if uni['country'].lower() == country]
 
     elif name:
         name = name.lower()
