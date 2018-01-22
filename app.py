@@ -1,6 +1,6 @@
 import json
 from collections import defaultdict
-from flask import Flask, request
+from flask import Flask, request, Response
 from pytrie import Trie
 import uuid
 import requests
@@ -27,8 +27,7 @@ def search():
         name = name.lower()
         country = country.lower()
         name_filtered = prefix_tree.values(prefix=name)
-        country_filtered = country_index[country]
-        filtered = [i for i in name_filtered if i['name'] in [_i['name'] for _i in country_filtered]]
+        filtered = [uni for uni in name_filtered if uni['country'].lower() == country]
 
     elif name:
         name = name.lower()
@@ -39,7 +38,7 @@ def search():
     elif domain:
         filtered = domain_index[domain]
 
-    return json.dumps(filtered)
+    return Response(json.dumps(filtered), mimetype='application/json')
 
 data_loaded = False
 
