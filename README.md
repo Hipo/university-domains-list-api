@@ -82,6 +82,17 @@ Feel free to update the list from [university-domains-list](https://github.com/h
     }
     ]
 
+## API Update Endpoint
+If the university dataset changes, the API won't automatically update it. Use this endpoint to force a refresh.
+
+### Request
+    /update
+
+### Response
+    {
+        'status': str,
+        'message': str
+    }
 
 ## Run the Project
 
