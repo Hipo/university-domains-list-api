@@ -4,6 +4,7 @@ from flask import Flask, request, Response
 from pytrie import Trie
 import uuid
 import requests
+import time
 
 app = Flask(__name__)
 
@@ -11,6 +12,9 @@ data = list()
 country_index = defaultdict(list)
 name_index = dict()
 domain_index = defaultdict(list)
+
+# Time to wait before allowing an update to our dataset. 86400 seconds = 24 hours
+UPDATE_WAIT_TIME = 86400
 
 
 @app.route("/search")
@@ -41,6 +45,7 @@ def search():
     return Response(json.dumps(filtered), mimetype='application/json')
 
 data_loaded = False
+last_updated = 0
 
 
 def load_data():
@@ -60,6 +65,18 @@ def load_data():
 
     data_loaded = True
 
+@app.route('/update')
+def update():
+    global last_updated
+
+    if (time.time() >= last_updated + UPDATE_WAIT_TIME):
+        load_data()
+        last_updated = time.time()
+        response = {'status': 'success', 'message': 'Dataset updated!'}
+    else:
+        response = {'status': 'error', 'message': 'Dataset had been updated recently. Try again later.'}
+
+    return json.dumps(response)
 
 @app.route('/')
 def index():
