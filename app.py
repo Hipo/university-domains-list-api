@@ -5,6 +5,7 @@ from pytrie import Trie
 import uuid
 import requests
 import time
+import re
 
 app = Flask(__name__)
 
@@ -28,14 +29,14 @@ def search():
     filtered = data
 
     if name and country:
-        name = name.lower()
         country = country.lower()
-        name_filtered = prefix_tree.values(prefix=name)
+        regex = re.compile(r'\b{0}'.format(name.lower()))
+        name_filtered = [uni for uni in data if regex.search(uni['name'].lower())]
         filtered = [uni for uni in name_filtered if uni['country'].lower() == country]
 
     elif name:
-        name = name.lower()
-        filtered = prefix_tree.values(prefix=name)
+        regex = re.compile(r'\b{0}'.format(name.lower()))
+        filtered = [uni for uni in data if regex.search(uni['name'].lower())]
     elif country:
         country = country.lower()
         filtered = country_index[country]
@@ -49,20 +50,9 @@ last_updated = 0
 
 
 def load_data():
-    global data_loaded, prefix_tree, data, country_index, name_index, domain_index
+    global data_loaded, data
     response = requests.get("https://raw.githubusercontent.com/Hipo/university-domains-list/master/world_universities_and_domains.json")
     data = response.json()
-    for i in data:
-        country_index[i["country"].lower()].append(i)
-        name_index[i['name'].lower()] = i
-        for domain in i["domains"]:
-            domain_index[domain].append(i)
-        splitted = i['name'].split(" ")
-        if len(splitted) > 1:
-            for splitted_name in splitted[1:]:
-                name_index[splitted_name.lower() + str(uuid.uuid1())] = i
-    prefix_tree = Trie(**name_index)
-
     data_loaded = True
 
 @app.route('/update')
