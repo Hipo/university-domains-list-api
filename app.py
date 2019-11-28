@@ -5,6 +5,7 @@ from pytrie import Trie
 import uuid
 import requests
 import time
+import re
 
 app = Flask(__name__)
 
@@ -24,6 +25,7 @@ def search():
 
     country = request.args.get('country')
     name = request.args.get('name')
+    name_contains = request.args.get('name_contains')
     domain = request.args.get("domain")
     filtered = data
 
@@ -32,7 +34,14 @@ def search():
         country = country.lower()
         name_filtered = prefix_tree.values(prefix=name)
         filtered = [uni for uni in name_filtered if uni['country'].lower() == country]
-
+    elif name_contains and country:
+        country = country.lower()
+        regex = re.compile(r'\b{0}'.format(name_contains.lower()))
+        name_filtered = [uni for uni in data if regex.search(uni['name'].lower())]
+        filtered = [uni for uni in name_filtered if uni['country'].lower() == country]
+    elif name_contains:
+        regex = re.compile(r'\b{0}'.format(name_contains.lower()))
+        filtered = [uni for uni in data if regex.search(uni['name'].lower())]
     elif name:
         name = name.lower()
         filtered = prefix_tree.values(prefix=name)
