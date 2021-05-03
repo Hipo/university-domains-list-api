@@ -97,7 +97,7 @@ If the university dataset changes, the API won't automatically update it. Use th
 ## Run the Project
 
 - Clone Project 
-`git clone https://github.com/hipo/university-domains-list.git`
+`git clone https://github.com/Hipo/university-domains-list-api.git`
 - Setup and activate your virtual environment
 - Install requirements
 `pip install -r requirements.txt`
