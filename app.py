@@ -85,7 +85,7 @@ def update():
     else:
         response = {'status': 'error', 'message': 'Dataset had been updated recently. Try again later.'}
 
-    return json.dumps(response)
+    return Response(json.dumps(response), mimetype='application/json')
 
 @app.route('/')
 def index():
@@ -96,7 +96,7 @@ def index():
     data = {'author': {'name': 'hipo', 'website': 'http://hipolabs.com'},
             'example': 'http://universities.hipolabs.com/search?name=middle&country=Turkey',
             'github': 'https://github.com/Hipo/university-domains-list'}
-    return json.dumps(data)
+    return Response(json.dumps(data), mimetype='application/json')
 
 if __name__ == "__main__":
     app.run(debug=False)
