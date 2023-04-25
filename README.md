@@ -82,6 +82,35 @@ Feel free to update the list from [university-domains-list](https://github.com/h
     }
     ]
 
+## Pagination
+    To paginate requests, we can use the limit and offset parameters. This allows to fetch limited data.
+
+### Request
+    /search?name=Middle&limit=1
+
+### Response
+    [
+    {
+    web_page: "http://www.meu.edu.jo/",
+    country: "Jordan",
+    domain: "meu.edu.jo",
+    name: "Middle East University"
+    }
+    ]
+
+### Request
+    /search?name=Middle&offset=1&limit=1
+
+### Response
+    [
+    {
+    web_page: "http://www.odtu.edu.tr/",
+    country: "Turkey",
+    domain: "odtu.edu.tr",
+    name: "Middle East Technical University"
+    }
+    ]
+
 ## API Update Endpoint
 If the university dataset changes, the API won't automatically update it. Use this endpoint to force a refresh.
 
