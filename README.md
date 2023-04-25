@@ -83,7 +83,7 @@ Feel free to update the list from [university-domains-list](https://github.com/h
     ]
 
 ## Pagination
-    To paginate requests, we can use the limit and offset parameters. This allows to fetch limited data.
+To paginate requests, we can use the limit and offset parameters. This allows to fetch limited data.
 
 ### Request
     /search?name=Middle&limit=1
