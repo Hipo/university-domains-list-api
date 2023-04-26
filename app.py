@@ -28,6 +28,8 @@ def search():
     name_contains = request.args.get('name_contains')
     domain = request.args.get("domain")
     filtered = data
+    limit = request.args.get('limit')
+    offset = request.args.get('offset')
 
     if name and country:
         name = name.lower()
@@ -51,6 +53,15 @@ def search():
     elif domain:
         filtered = domain_index[domain]
 
+    if offset:
+        offset = int(offset)
+        if offset > len(filtered):
+            filtered = []
+        else:
+            filtered = filtered[offset:]
+    if limit:
+        limit = int(limit)
+        filtered = filtered[:limit]
     return Response(json.dumps(filtered), mimetype='application/json')
 
 data_loaded = False
