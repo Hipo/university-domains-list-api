@@ -1,6 +1,6 @@
 import json
 from collections import defaultdict
-from flask import Flask, request, Response
+from flask import Flask, request, jsonify
 from pytrie import Trie
 import uuid
 import requests
@@ -16,7 +16,6 @@ domain_index = defaultdict(list)
 
 # Time to wait before allowing an update to our dataset. 86400 seconds = 24 hours
 UPDATE_WAIT_TIME = 86400
-
 
 @app.route("/search")
 def search():
@@ -62,11 +61,10 @@ def search():
     if limit:
         limit = int(limit)
         filtered = filtered[:limit]
-    return Response(json.dumps(filtered), mimetype='application/json')
+    return jsonify(filtered)
 
 data_loaded = False
 last_updated = 0
-
 
 def load_data():
     global data_loaded, prefix_tree, data, country_index, name_index, domain_index
@@ -96,18 +94,17 @@ def update():
     else:
         response = {'status': 'error', 'message': 'Dataset had been updated recently. Try again later.'}
 
-    return Response(json.dumps(response), mimetype='application/json')
+    return jsonify(response)
 
 @app.route('/')
 def index():
-
     if not data_loaded:
         load_data()
 
     data = {'author': {'name': 'hipo', 'website': 'http://hipolabs.com'},
             'example': 'http://universities.hipolabs.com/search?name=middle&country=Turkey',
             'github': 'https://github.com/Hipo/university-domains-list'}
-    return Response(json.dumps(data), mimetype='application/json')
+    return jsonify(data)
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run()
